@@ -7,14 +7,46 @@
   <title>玉汝于城农产AI内容服务工作室</title>
   
   <!-- 引入样式文件 -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/style.css">
+  
+  <!-- 【关键修复】强制弹窗滚动样式 -->
+  <style>
+    /* 确保 html/body 不会阻止弹窗滚动 */
+    html, body {
+      overflow-x: hidden !important;
+      /* 弹窗打开时，我们通过 JS 控制 body 的 overflow-y */
+    }
+
+    /* 强制弹窗容器可滚动 */
+    .overlay {
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important; /* 修复 iOS 滑动卡顿 */
+      overscroll-behavior: contain !important; /* 防止滚动穿透到底层页面 */
+    }
+
+    /* 确保弹窗内容不阻止点击和滚动 */
+    .overlay .overlay-content {
+      pointer-events: auto !important;
+      /* 确保内容高度自适应，不超出视口太多 */
+      max-height: none !important;
+      height: auto !important;
+      margin-bottom: 20px !important; /* 底部留一点空间，防止内容贴边 */
+    }
+    
+    /* 确保关闭按钮层级够高且可点击 */
+    .overlay .close-btn {
+      z-index: 1002 !important;
+      pointer-events: auto !important;
+    }
+  </style>
   
   <!-- 引入GSAP动画库（稳定CDN，加defer不阻塞页面加载） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   
   <!-- 引入交互文件（加defer等DOM加载完再执行） -->
-  <script src="script.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/script.js" defer></script>
 </head>
 <body>
   <!-- 导航栏 -->
@@ -141,21 +173,21 @@
       <p class="section-desc">针对汝城本地农产设计的标准化服务模板</p>
       <div class="case-grid">
         <div class="case-card">
-          <img src="duck.jpg" alt="汝城板鸭详情页方案" class="case-img" loading="lazy">
+          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/duck.jpg" alt="汝城板鸭脚本方案">
           <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
           <h3>【示例】汝城板鸭电商详情页方案</h3>
           <p>突出传统工艺与本地特色的标准化模板</p>
           <button onclick="openOverlay('case-duck')" class="btn-outline">查看方案</button>
         </div>
         <div class="case-card">
-          <img src="tea.jpg" alt="汝城白毛茶脚本方案" class="case-img" loading="lazy">
+          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/tea.jpg" alt="汝城白毛茶脚本方案">
           <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
           <h3>【示例】汝城白毛茶短视频脚本方案</h3>
           <p>适配抖音/视频号的场景化口播模板</p>
           <button onclick="openOverlay('case-tea')" class="btn-outline">查看方案</button>
         </div>
         <div class="case-card">
-          <img src="plum.jpg" alt="文明奈李文案方案" class="case-img" loading="lazy">
+          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/plum.jpg" alt="汝城奈李脚本方案">
           <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
           <h3>【示例】文明奈李朋友圈文案方案</h3>
           <p>适配预售/上市全周期的私域推广模板</p>
@@ -306,7 +338,7 @@
     <div id="case-duck" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-duck')" class="close-btn">×</button>
-        <img src="duck.jpg" alt="汝城板鸭详情页方案" class="overlay-img">
+        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/duck.jpg" alt="汝城板鸭详情页方案" class="overlay-img">
         <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【汝城板鸭】电商详情页标准化方案</h2>
 
@@ -324,7 +356,7 @@
     <div id="case-tea" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-tea')" class="close-btn">×</button>
-        <img src="tea.jpg" alt="汝城白毛茶脚本方案" class="overlay-img">
+        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/tea.jpg" alt="汝城白毛茶脚本方案" class="overlay-img">
         <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【汝城白毛茶】短视频口播脚本方案</h2>
 
@@ -342,7 +374,7 @@
     <div id="case-plum" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-plum')" class="close-btn">×</button>
-        <img src="plum.jpg" alt="文明奈李文案方案" class="overlay-img">
+        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/plum.jpg" alt="文明奈李文案方案" class="overlay-img">
         <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【文明奈李】朋友圈推广文案方案</h2>
 
@@ -357,5 +389,55 @@
       </div>
     </div>
   </div>
+
+  <!-- 【关键修复】补充弹窗交互 JS（如果 script.js 为空） -->
+  <script>
+    // 这是一个兜底的 JS，确保如果你的 script.js 没加载成功，弹窗也能正常工作
+    document.addEventListener('DOMContentLoaded', function() {
+      // 检查是否已有 openOverlay 函数（防止重复定义）
+      if (typeof window.openOverlay === 'undefined') {
+        window.openOverlay = function(id) {
+          const overlay = document.getElementById(id);
+          if (overlay) {
+            overlay.classList.add('active');
+            // 【关键】打开弹窗时，禁止 body 滚动，但保留 html 滚动
+            document.body.style.overflow = 'hidden';
+          }
+        };
+      }
+
+      if (typeof window.closeOverlay === 'undefined') {
+        window.closeOverlay = function(id) {
+          const overlay = document.getElementById(id);
+          if (overlay) {
+            overlay.classList.remove('active');
+            // 【关键】关闭弹窗时，恢复 body 滚动
+            document.body.style.overflow = '';
+          }
+        };
+      }
+      
+      if (typeof window.scrollToSection === 'undefined') {
+        window.scrollToSection = function(id) {
+          const element = document.getElementById(id);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        };
+      }
+      
+      if (typeof window.switchOverlay === 'undefined') {
+        window.switchOverlay = function(id) {
+          // 简单的切换逻辑：先关所有 overlay，再开新的
+          document.querySelectorAll('.overlay, .overlay-page').forEach(el => {
+            el.classList.remove('active');
+          });
+          setTimeout(() => {
+            window.openOverlay(id);
+          }, 100);
+        };
+      }
+    });
+  </script>
 </body>
 </html>
