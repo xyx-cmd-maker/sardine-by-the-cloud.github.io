@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="汝城本地农产AI内容服务，提供电商详情页、短视频脚本、朋友圈文案等低成本解决方案">
+  <title>玉汝于城农产AI内容服务工作室</title>
+  
+  <!-- 引入样式文件 -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- 引入GSAP动画库（稳定CDN，加defer不阻塞页面加载） -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  
+  <!-- 引入交互文件（加defer等DOM加载完再执行） -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- 导航栏 -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">汝城农产AI</div>
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link">首页</a></li>
+        <li><a href="#services" class="nav-link">服务项目</a></li>
+        <li><a href="#prices" class="nav-link">价格体系</a></li>
+        <li><a href="#cases" class="nav-link">案例展示</a></li>
+        <li><a href="#about" class="nav-link">关于我们</a></li>
+        <li><a href="#contact" class="nav-link">联系我们</a></li>
+      </ul>
+      <!-- 移动端汉堡菜单 -->
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+    <!-- 移动端展开菜单 -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#hero" class="mobile-nav-link">首页</a>
+      <a href="#services" class="mobile-nav-link">服务项目</a>
+      <a href="#prices" class="mobile-nav-link">价格体系</a>
+      <a href="#cases" class="mobile-nav-link">案例展示</a>
+      <a href="#about" class="mobile-nav-link">关于我们</a>
+      <a href="#contact" class="mobile-nav-link">联系我们</a>
+    </div>
+  </nav>
+
+  <!-- 主页面内容 -->
+  <div id="mainContent">
+    <!-- Hero区（首屏） -->
+    <section id="hero" class="hero">
+      <div class="hero-content">
+        <h1 class="hero-title">玉汝于城农产AI内容服务工作室</h1>
+        <p class="hero-slogan">汝城农特产出圈，AI内容一站搞定</p>
+        <p class="hero-desc">专为汝城本地农户/作坊提供低成本AI内容服务</p>
+        <div class="hero-buttons">
+          <button onclick="openOverlay('service-basic')" class="btn-primary">查看服务</button>
+          <button onclick="scrollToSection('contact')" class="btn-secondary">立即咨询</button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <div class="agri-icon">🦆</div>
+        <div class="agri-icon">🍵</div>
+        <div class="agri-icon">🍊</div>
+      </div>
+    </section>
+
+    <!-- 服务项目区 -->
+    <section id="services" class="section">
+      <h2 class="section-title">核心服务</h2>
+      <p class="section-desc">为汝城农产量身定制的AI内容解决方案</p>
+      <div class="service-grid">
+        <div class="service-card">
+          <div class="service-icon">✍️</div>
+          <h3>基础文案创作</h3>
+          <p>推广标题、卖点提炼、朋友圈文案</p>
+          <button onclick="openOverlay('service-basic')" class="btn-outline">查看详情</button>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🛒</div>
+          <h3>电商详情页设计</h3>
+          <p>淘宝/拼多多/微信小店详情页</p>
+          <button onclick="openOverlay('service-ecommerce')" class="btn-outline">查看详情</button>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎥</div>
+          <h3>短视频脚本创作</h3>
+          <p>抖音/快手/视频号口播稿</p>
+          <button onclick="openOverlay('service-video')" class="btn-outline">查看详情</button>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📋</div>
+          <h3>定制内容策划</h3>
+          <p>完整带货分镜、拍摄指导</p>
+          <button onclick="openOverlay('service-custom')" class="btn-outline">查看详情</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 价格体系区 -->
+    <section id="prices" class="section section-alt">
+      <h2 class="section-title">透明价格</h2>
+      <p class="section-desc">本地农户专属优惠，长期合作更划算</p>
+      <div class="price-grid">
+        <div class="price-card" data-price="7.9">
+          <h3>基础文案类</h3>
+          <div class="price-value">¥<span class="counter">0</span>/条</div>
+          <ul>
+            <li>推广标题/卖点</li>
+            <li>朋友圈文案</li>
+            <li>24小时交付</li>
+          </ul>
+        </div>
+        <div class="price-card" data-price="16.9">
+          <h3>标准交付类</h3>
+          <div class="price-value">¥<span class="counter">0</span>/份</div>
+          <ul>
+            <li>电商详情页</li>
+            <li>口播稿</li>
+            <li>48小时交付</li>
+          </ul>
+        </div>
+        <div class="price-card" data-price="29.9">
+          <h3>定制脚本类</h3>
+          <div class="price-value">¥<span class="counter">0</span>/条</div>
+          <ul>
+            <li>完整带货分镜</li>
+            <li>拍摄指导</li>
+            <li>72小时交付</li>
+          </ul>
+        </div>
+      </div>
+      <p class="price-note">* 支持长期合作包月，本地农户/合作社享9折优惠</p>
+    </section>
+
+    <!-- 案例展示区（合规：所有图加非实拍备注） -->
+    <section id="cases" class="section">
+      <h2 class="section-title">服务方案</h2>
+      <p class="section-desc">针对汝城本地农产设计的标准化服务模板</p>
+      <div class="case-grid">
+        <div class="case-card">
+          <img src="duck.jpg" alt="汝城板鸭详情页方案" class="case-img" loading="lazy">
+          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <h3>【示例】汝城板鸭电商详情页方案</h3>
+          <p>突出传统工艺与本地特色的标准化模板</p>
+          <button onclick="openOverlay('case-duck')" class="btn-outline">查看方案</button>
+        </div>
+        <div class="case-card">
+          <img src="tea.jpg" alt="汝城白毛茶脚本方案" class="case-img" loading="lazy">
+          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <h3>【示例】汝城白毛茶短视频脚本方案</h3>
+          <p>适配抖音/视频号的场景化口播模板</p>
+          <button onclick="openOverlay('case-tea')" class="btn-outline">查看方案</button>
+        </div>
+        <div class="case-card">
+          <img src="plum.jpg" alt="文明奈李文案方案" class="case-img" loading="lazy">
+          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <h3>【示例】文明奈李朋友圈文案方案</h3>
+          <p>适配预售/上市全周期的私域推广模板</p>
+          <button onclick="openOverlay('case-plum')" class="btn-outline">查看方案</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 关于我们区 -->
+    <section id="about" class="section section-alt">
+      <h2 class="section-title">关于我们</h2>
+      <div class="about-content">
+        <div class="about-item">
+          <h4>🏠 工作室介绍</h4>
+          <p>一人独资轻运营，专注汝城本地农产AI内容服务</p>
+        </div>
+        <div class="about-item">
+          <h4>⚙️ 运营模式</h4>
+          <p>单人可做、AI提效、零囤货零门店、纯服务交付</p>
+        </div>
+        <div class="about-item">
+          <h4>🤖 技术支撑</h4>
+          <p>本地部署AI工具，内容生产效率大幅提升</p>
+        </div>
+        <div class="about-item">
+          <h4>💡 服务理念</h4>
+          <p>助力汝城农特产线上拓客增收，让好产品被更多人看到</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系我们区 -->
+    <section id="contact" class="section">
+      <h2 class="section-title">联系我们</h2>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h3>对接方式</h3>
+          <p>📱 服务电话：158-8652-7127</p>
+          <p>💬 对接微信：Cat_God_R</p>
+        </div>
+        <form id="contactForm" class="contact-form">
+          <input type="text" placeholder="您的姓名" required>
+          <input type="text" placeholder="需求（如“板鸭文案”）" required>
+          <input type="tel" placeholder="联系方式" required>
+          <button type="submit" class="btn-primary">提交需求</button>
+          <p class="form-success" id="formSuccess">✅ 需求已提交！我们会尽快联系您</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- 页脚（合规：加极简免责声明） -->
+    <footer class="footer">
+      <p>© 2026 玉汝于城农产AI内容服务工作室 版权所有</p>
+      <p class="footer-disclaimer">本网站所有服务方案均为标准化模板示例，不构成任何效果承诺</p>
+      <p class="footer-disclaimer">本网站为个人非商用展示站点，非注册经营主体</p>
+      <div class="footer-links">
+        <a href="#hero">首页</a>
+        <a href="#services">服务</a>
+        <a href="#contact">联系</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- 叠加页容器（统一管理所有弹窗） -->
+  <div id="overlayContainer" class="overlay-container">
+    <!-- 服务详情侧滑页 -->
+    <div id="service-basic" class="overlay-page">
+      <div class="overlay-header">
+        <button onclick="closeOverlay('service-basic')" class="back-btn">← 返回</button>
+        <h2>基础文案创作</h2>
+      </div>
+      <div class="overlay-content">
+        <div class="price-tag">7.9元/条</div>
+        <h4>服务内容</h4>
+        <ul>
+          <li>产品推广标题（50字内）</li>
+          <li>核心卖点提炼（3-5个）</li>
+          <li>朋友圈推广文案（配表情建议）</li>
+          <li>短视频标题创作</li>
+        </ul>
+        <h4>交付标准</h4>
+        <p>24小时内交付，1次免费修改</p>
+        <button onclick="switchOverlay('case-duck')" class="btn-secondary">查看板鸭文案案例</button>
+      </div>
+    </div>
+
+    <div id="service-ecommerce" class="overlay-page">
+      <div class="overlay-header">
+        <button onclick="closeOverlay('service-ecommerce')" class="back-btn">← 返回</button>
+        <h2>电商详情页设计</h2>
+      </div>
+      <div class="overlay-content">
+        <div class="price-tag">16.9元/份</div>
+        <h4>服务内容</h4>
+        <ul>
+          <li>产品详情页文案撰写</li>
+          <li>产品特点和卖点突出</li>
+          <li>产品规格参数描述</li>
+          <li>使用方法说明</li>
+        </ul>
+        <h4>交付标准</h4>
+        <p>48小时内交付，1次免费修改</p>
+        <button onclick="switchOverlay('case-duck')" class="btn-secondary">查看板鸭详情页案例</button>
+      </div>
+    </div>
+
+    <div id="service-video" class="overlay-page">
+      <div class="overlay-header">
+        <button onclick="closeOverlay('service-video')" class="back-btn">← 返回</button>
+        <h2>短视频脚本创作</h2>
+      </div>
+      <div class="overlay-content">
+        <div class="price-tag">16.9元/份</div>
+        <h4>服务内容</h4>
+        <ul>
+          <li>短视频口播稿创作</li>
+          <li>产品介绍脚本</li>
+          <li>带货话术设计</li>
+          <li>短视频标题和标签</li>
+        </ul>
+        <h4>交付标准</h4>
+        <p>48小时内交付，1次免费修改</p>
+        <button onclick="switchOverlay('case-tea')" class="btn-secondary">查看白毛茶脚本案例</button>
+      </div>
+    </div>
+
+    <div id="service-custom" class="overlay-page">
+      <div class="overlay-header">
+        <button onclick="closeOverlay('service-custom')" class="back-btn">← 返回</button>
+        <h2>定制内容策划</h2>
+      </div>
+      <div class="overlay-content">
+        <div class="price-tag">29.9元/条</div>
+        <h4>服务内容</h4>
+        <ul>
+          <li>完整带货分镜脚本</li>
+          <li>视频拍摄指导</li>
+          <li>场景布置建议</li>
+          <li>道具准备清单</li>
+        </ul>
+        <h4>交付标准</h4>
+        <p>72小时内交付，2次免费修改</p>
+        <button onclick="scrollToSection('contact')" class="btn-primary">立即定制</button>
+      </div>
+    </div>
+
+    <!-- 案例展示居中弹窗（合规：所有图加非实拍备注） -->
+    <div id="case-duck" class="overlay">
+      <div class="overlay-content">
+        <button onclick="closeOverlay('case-duck')" class="close-btn">×</button>
+        <img src="duck.jpg" alt="汝城板鸭详情页方案" class="overlay-img">
+        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+        <h2>【汝城板鸭】电商详情页标准化方案</h2>
+
+        <h4>方案背景</h4>
+        <p>针对汝城本地传统板鸭作坊的线上推广痛点，量身设计的全平台详情页模板，适配淘宝、拼多多、微信小店等主流渠道。</p>
+
+        <h4>方案核心</h4>
+        <p>深度挖掘汝城板鸭的「本地散养麻鸭、传统手工腌制、非遗风味传承」三大核心卖点，用汝城本地接地气的语言风格，降低线上运营门槛。</p>
+
+        <h4>方案价值</h4>
+        <p>标准化模板可直接落地使用，突出产品差异化优势，帮助本地商家快速搭建专业的线上详情页，提升转化效率。</p>
+      </div>
+    </div>
+
+    <div id="case-tea" class="overlay">
+      <div class="overlay-content">
+        <button onclick="closeOverlay('case-tea')" class="close-btn">×</button>
+        <img src="tea.jpg" alt="汝城白毛茶脚本方案" class="overlay-img">
+        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+        <h2>【汝城白毛茶】短视频口播脚本方案</h2>
+
+        <h4>方案背景</h4>
+        <p>针对汝城白毛茶的地域特色和线上传播特点，设计的抖音、视频号通用口播脚本模板，适配15秒-1分钟不同时长的短视频。</p>
+
+        <h4>方案核心</h4>
+        <p>突出汝城白毛茶「高山云雾种植、独特白毫特征、鲜爽回甘口感」的核心优势，用“场景化+故事化”的方式，快速抓住观众注意力。</p>
+
+        <h4>方案价值</h4>
+        <p>脚本模板包含完整的台词、画面、音乐建议，本地商家拿到即可直接拍摄，降低短视频创作门槛，提升内容传播效果。</p>
+      </div>
+    </div>
+
+    <div id="case-plum" class="overlay">
+      <div class="overlay-content">
+        <button onclick="closeOverlay('case-plum')" class="close-btn">×</button>
+        <img src="plum.jpg" alt="文明奈李文案方案" class="overlay-img">
+        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+        <h2>【文明奈李】朋友圈推广文案方案</h2>
+
+        <h4>方案背景</h4>
+        <p>针对汝城文明奈李的季节性特点和本地私域传播需求，设计的朋友圈文案+配图方案，适配预售、上市、尾期全周期推广。</p>
+
+        <h4>方案核心</h4>
+        <p>突出文明奈李「核心产区种植、个大核小肉厚、脆甜多汁口感」的核心卖点，用“真实感+互动感”的文案风格，激发朋友圈好友的购买欲。</p>
+
+        <h4>方案价值</h4>
+        <p>文案方案包含不同场景的文案模板和配图建议，本地果农拿到即可直接发布，提升私域转化效率，降低文案创作成本。</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
