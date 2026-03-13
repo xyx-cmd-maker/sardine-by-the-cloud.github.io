@@ -26,7 +26,6 @@ body {
   line-height: 1.8;
   color: var(--text-dark);
   overflow-x: hidden;
-  /* 防止弹窗打开时的背景跳动预留 */
 }
 
 /* ==============================
@@ -198,7 +197,7 @@ body {
 .service-card p { color: var(--text-gray); margin-bottom: 24px; }
 
 /* ==============================
-   价格卡片
+   价格卡片【修复】统一高度+数字防跳动
    ============================== */
 .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 32px; }
 .price-card {
@@ -208,16 +207,33 @@ body {
   box-shadow: var(--card-shadow);
   text-align: center;
   transition: all 0.3s;
+  min-height: 420px; /* 统一高度，布局整齐 */
+  display: flex;
+  flex-direction: column;
 }
 .price-card:hover { transform: scale(1.05); }
 .price-card h3 { margin-bottom: 22px; font-size: 1.3rem; }
-.price-value { font-size: 2.75rem; color: var(--primary-green); font-weight: 700; margin-bottom: 28px; }
-.price-card ul { list-style: none; text-align: left; color: var(--text-gray); }
+.price-value { 
+  font-size: 2.75rem; 
+  color: var(--primary-green); 
+  font-weight: 700; 
+  margin-bottom: 28px; 
+  font-variant-numeric: tabular-nums; /* 【关键】数字宽度固定，动画不偏移 */
+}
+.price-counter {
+  font-variant-numeric: tabular-nums;
+}
+.price-card ul { 
+  list-style: none; 
+  text-align: left; 
+  color: var(--text-gray); 
+  flex: 1; /* 撑满高度，按钮底部对齐 */
+}
 .price-card li { padding: 10px 0; border-bottom: 1px solid var(--light-gray); }
 .price-note { text-align: center; color: var(--text-gray); margin-top: 36px; font-style: italic; }
 
 /* ==============================
-   案例卡片
+   案例卡片【修复】图片占位+加载样式
    ============================== */
 .case-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 32px; }
 .case-card {
@@ -230,7 +246,23 @@ body {
   flex-direction: column;
 }
 .case-card:hover { transform: translateY(-12px); }
-.case-img { width: 100%; height: 230px; object-fit: cover; display: block; background-color: #eee; }
+.case-img { 
+  width: 100%; 
+  height: 230px; 
+  object-fit: cover; 
+  display: block; 
+  background-color: #eee; /* 加载中背景 */
+}
+/* 图片加载失败占位样式 */
+.case-img-placeholder {
+  width: 100%;
+  height: 230px;
+  background-color: #eee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
 .case-img-note { font-size: 0.78rem; color: #999; text-align: center; margin: 10px 16px 18px; }
 .case-card h3 { padding: 0 20px 12px; font-size: 1.15rem; }
 .case-card p { padding: 0 20px 20px; color: var(--text-gray); flex: 1; }
@@ -286,7 +318,7 @@ body {
 .footer-links a:hover { color: white; }
 
 /* ==============================
-   【核心优化】弹窗与交互系统
+   弹窗与交互系统【修复】滚动优化
    ============================== */
 .overlay-container {
   position: fixed;
@@ -315,6 +347,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch; /* iOS顺滑滚动 */
+  touch-action: pan-y; /* 移动端滚动优化 */
   
   /* Flex布局确保内容垂直居中且可滚动 */
   flex-direction: column;
@@ -416,6 +449,7 @@ body {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
 }
