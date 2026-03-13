@@ -6,12 +6,11 @@
   <meta name="description" content="汝城本地农产AI内容服务，提供电商详情页、短视频脚本、朋友圈文案等低成本解决方案">
   <title>玉汝于城农产AI内容服务工作室</title>
   
-  <!-- 引入样式文件 -->
   <link rel="stylesheet" href="style.css">
   
-  <!-- GSAP动画库（稳定CDN，加defer不阻塞页面加载） -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <!-- GSAP前置加载，确保动画丝滑 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
 <body>
   <!-- 导航栏 -->
@@ -26,14 +25,12 @@
         <li><a href="#about" class="nav-link">关于我们</a></li>
         <li><a href="#contact" class="nav-link">联系我们</a></li>
       </ul>
-      <!-- 移动端汉堡菜单 -->
       <div class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </div>
     </div>
-    <!-- 移动端展开菜单 -->
     <div class="mobile-menu" id="mobileMenu">
       <a href="#hero" class="mobile-nav-link">首页</a>
       <a href="#services" class="mobile-nav-link">服务项目</a>
@@ -44,9 +41,8 @@
     </div>
   </nav>
 
-  <!-- 主页面内容 -->
   <div id="mainContent">
-    <!-- Hero区（首屏） -->
+    <!-- Hero区 -->
     <section id="hero" class="hero">
       <div class="hero-content">
         <h1 class="hero-title">玉汝于城农产AI内容服务工作室</h1>
@@ -96,14 +92,14 @@
       </div>
     </section>
 
-    <!-- 价格体系区 -->
+    <!-- 价格体系区【关键】：data-price存储目标值，HTML初始显示0，等待JS激活 -->
     <section id="prices" class="section section-alt">
       <h2 class="section-title">透明价格</h2>
       <p class="section-desc">本地农户专属优惠，长期合作更划算</p>
       <div class="price-grid">
         <div class="price-card" data-price="7.9">
           <h3>基础文案类</h3>
-          <div class="price-value">¥<span class="price-counter">7.9</span>/条</div>
+          <div class="price-value">¥<span class="price-counter">0</span>/条</div>
           <ul>
             <li>推广标题/卖点</li>
             <li>朋友圈文案</li>
@@ -112,7 +108,7 @@
         </div>
         <div class="price-card" data-price="16.9">
           <h3>标准交付类</h3>
-          <div class="price-value">¥<span class="price-counter">16.9</span>/份</div>
+          <div class="price-value">¥<span class="price-counter">0</span>/份</div>
           <ul>
             <li>电商详情页</li>
             <li>口播稿</li>
@@ -121,7 +117,7 @@
         </div>
         <div class="price-card" data-price="29.9">
           <h3>定制脚本类</h3>
-          <div class="price-value">¥<span class="price-counter">29.9</span>/条</div>
+          <div class="price-value">¥<span class="price-counter">0</span>/条</div>
           <ul>
             <li>完整带货分镜</li>
             <li>拍摄指导</li>
@@ -132,7 +128,7 @@
       <p class="price-note">* 支持长期合作包月，本地农户/合作社享9折优惠</p>
     </section>
 
-    <!-- 案例展示区【关键修复：图片路径改为jsDelivr CDN】 -->
+    <!-- 案例展示区 -->
     <section id="cases" class="section">
       <h2 class="section-title">服务方案</h2>
       <p class="section-desc">针对汝城本地农产设计的标准化服务模板</p>
@@ -368,7 +364,6 @@
     </div>
   </div>
 
-  <!-- JS放在body末尾，确保DOM完全加载 -->
   <script src="script.js"></script>
 </body>
 </html>
