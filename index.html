@@ -7,46 +7,157 @@
   <title>玉汝于城农产AI内容服务工作室</title>
   
   <!-- 引入样式文件 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/style.css">
-  
-  <!-- 【关键修复】强制弹窗滚动样式 -->
-  <style>
-    /* 确保 html/body 不会阻止弹窗滚动 */
-    html, body {
-      overflow-x: hidden !important;
-      /* 弹窗打开时，我们通过 JS 控制 body 的 overflow-y */
-    }
-
-    /* 强制弹窗容器可滚动 */
-    .overlay {
-      overflow-y: auto !important;
-      overflow-x: hidden !important;
-      -webkit-overflow-scrolling: touch !important; /* 修复 iOS 滑动卡顿 */
-      overscroll-behavior: contain !important; /* 防止滚动穿透到底层页面 */
-    }
-
-    /* 确保弹窗内容不阻止点击和滚动 */
-    .overlay .overlay-content {
-      pointer-events: auto !important;
-      /* 确保内容高度自适应，不超出视口太多 */
-      max-height: none !important;
-      height: auto !important;
-      margin-bottom: 20px !important; /* 底部留一点空间，防止内容贴边 */
-    }
-    
-    /* 确保关闭按钮层级够高且可点击 */
-    .overlay .close-btn {
-      z-index: 1002 !important;
-      pointer-events: auto !important;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
   
   <!-- 引入GSAP动画库（稳定CDN，加defer不阻塞页面加载） -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
   
   <!-- 引入交互文件（加defer等DOM加载完再执行） -->
-  <script src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/script.js" defer></script>
+  <script src="script.js" defer></script>
+
+  <style>
+    /* ------------------------------
+       【核心修复】弹窗样式重写
+       ------------------------------ */
+    html, body {
+      /* 确保基础高度足够 */
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    .overlay-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    /* 1. 案例弹窗：全屏可滚动容器 */
+    .overlay {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important; /* 强制视口宽度 */
+      height: 100vh !important; /* 强制视口高度 */
+      margin: 0 !important;
+      padding: 20px 16px !important; /* 上下左右留白 */
+      box-sizing: border-box !important;
+      background: rgba(0,0,0,0.85) !important;
+      display: none !important;
+      z-index: 1001 !important;
+      
+      /* 【关键修复】允许垂直滚动 */
+      overflow-y: auto !important; 
+      overflow-x: hidden !important;
+      
+      /* 移动端顺滑滚动 */
+      -webkit-overflow-scrolling: touch !important;
+      
+      pointer-events: auto !important;
+    }
+
+    .overlay.active {
+      display: flex !important; /* 使用flex布局 */
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: flex-start !important; /* 从顶部开始排列 */
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .overlay .overlay-content {
+      background: #fff !important;
+      max-width: 800px !important;
+      width: 100% !important;
+      height: auto !important; /* 高度自适应 */
+      flex-shrink: 0 !important; /* 防止被压缩 */
+      margin: auto 0 !important; /* 垂直居中，如果内容少于一屏 */
+      padding: 40px 24px !important;
+      padding-top: 50px !important; /* 给关闭按钮留空间 */
+      border-radius: 12px !important;
+      position: relative !important;
+      box-sizing: border-box !important;
+      animation: slideUp 0.3s ease;
+      pointer-events: auto !important;
+    }
+
+    @keyframes slideUp { 
+      from { opacity: 0; transform: translateY(20px); } 
+      to { opacity: 1; transform: translateY(0); } 
+    }
+
+    .close-btn {
+      position: fixed !important; /* 改为fixed，防止跟随内容滚动 */
+      top: 16px;
+      right: 16px;
+      width: 40px;
+      height: 40px;
+      font-size: 2rem;
+      line-height: 40px;
+      text-align: center;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      border: none;
+      cursor: pointer;
+      color: #333;
+      z-index: 1002 !important;
+    }
+    
+    .overlay .overlay-img {
+      width: 100%;
+      height: auto;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .overlay .overlay-content h2 { margin-bottom: 26px; font-size: 1.6rem; line-height: 1.4; }
+    .overlay .overlay-content h4 { margin: 30px 0 14px; font-size: 1.18rem; }
+    .overlay .overlay-content p { color: #666; line-height: 1.9; margin-bottom: 12px; font-size: 1.02rem; }
+
+    /* 2. 服务侧滑页修复（保持原有逻辑，增强滚动） */
+    .overlay-page {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      background: white !important;
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 1001 !important;
+      
+      /* 侧滑页也确保能滚动 */
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important;
+      
+      transition: all 0.3s ease;
+    }
+    
+    .overlay-page.active {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* 响应式微调 */
+    @media (max-width: 768px) {
+      .overlay { padding: 10px !important; }
+      .overlay .overlay-content { padding: 24px 16px !important; padding-top: 60px !important; border-radius: 8px !important; }
+      .overlay .overlay-img { max-height: 220px; }
+      .close-btn { top: 10px; right: 10px; }
+    }
+  </style>
 </head>
 <body>
   <!-- 导航栏 -->
@@ -173,22 +284,22 @@
       <p class="section-desc">针对汝城本地农产设计的标准化服务模板</p>
       <div class="case-grid">
         <div class="case-card">
-          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/duck.jpg" alt="汝城板鸭脚本方案">
-          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <div style="width:100%; height:230px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:3rem;">🦆</div>
+          <p class="case-img-note">* 方案示例配图</p>
           <h3>【示例】汝城板鸭电商详情页方案</h3>
           <p>突出传统工艺与本地特色的标准化模板</p>
           <button onclick="openOverlay('case-duck')" class="btn-outline">查看方案</button>
         </div>
         <div class="case-card">
-          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/tea.jpg" alt="汝城白毛茶脚本方案">
-          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <div style="width:100%; height:230px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:3rem;">🍵</div>
+          <p class="case-img-note">* 方案示例配图</p>
           <h3>【示例】汝城白毛茶短视频脚本方案</h3>
           <p>适配抖音/视频号的场景化口播模板</p>
           <button onclick="openOverlay('case-tea')" class="btn-outline">查看方案</button>
         </div>
         <div class="case-card">
-          <img class="case-img" loading="lazy" src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/plum.jpg" alt="汝城奈李脚本方案">
-          <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
+          <div style="width:100%; height:230px; background:#eee; display:flex; align-items:center; justify-content:center; font-size:3rem;">🍊</div>
+          <p class="case-img-note">* 方案示例配图</p>
           <h3>【示例】文明奈李朋友圈文案方案</h3>
           <p>适配预售/上市全周期的私域推广模板</p>
           <button onclick="openOverlay('case-plum')" class="btn-outline">查看方案</button>
@@ -251,7 +362,7 @@
     </footer>
   </div>
 
-  <!-- 叠加页容器（统一管理所有弹窗） -->
+  <!-- 叠加页容器 -->
   <div id="overlayContainer" class="overlay-container">
     <!-- 服务详情侧滑页 -->
     <div id="service-basic" class="overlay-page">
@@ -334,20 +445,15 @@
       </div>
     </div>
 
-    <!-- 案例展示居中弹窗（合规：所有图加非实拍备注） -->
+    <!-- 案例展示居中弹窗 -->
     <div id="case-duck" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-duck')" class="close-btn">×</button>
-        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/duck.jpg" alt="汝城板鸭详情页方案" class="overlay-img">
-        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【汝城板鸭】电商详情页标准化方案</h2>
-
         <h4>方案背景</h4>
         <p>针对汝城本地传统板鸭作坊的线上推广痛点，量身设计的全平台详情页模板，适配淘宝、拼多多、微信小店等主流渠道。</p>
-
         <h4>方案核心</h4>
         <p>深度挖掘汝城板鸭的「本地散养麻鸭、传统手工腌制、非遗风味传承」三大核心卖点，用汝城本地接地气的语言风格，降低线上运营门槛。</p>
-
         <h4>方案价值</h4>
         <p>标准化模板可直接落地使用，突出产品差异化优势，帮助本地商家快速搭建专业的线上详情页，提升转化效率。</p>
       </div>
@@ -356,16 +462,11 @@
     <div id="case-tea" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-tea')" class="close-btn">×</button>
-        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/tea.jpg" alt="汝城白毛茶脚本方案" class="overlay-img">
-        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【汝城白毛茶】短视频口播脚本方案</h2>
-
         <h4>方案背景</h4>
         <p>针对汝城白毛茶的地域特色和线上传播特点，设计的抖音、视频号通用口播脚本模板，适配15秒-1分钟不同时长的短视频。</p>
-
         <h4>方案核心</h4>
         <p>突出汝城白毛茶「高山云雾种植、独特白毫特征、鲜爽回甘口感」的核心优势，用“场景化+故事化”的方式，快速抓住观众注意力。</p>
-
         <h4>方案价值</h4>
         <p>脚本模板包含完整的台词、画面、音乐建议，本地商家拿到即可直接拍摄，降低短视频创作门槛，提升内容传播效果。</p>
       </div>
@@ -374,70 +475,164 @@
     <div id="case-plum" class="overlay">
       <div class="overlay-content">
         <button onclick="closeOverlay('case-plum')" class="close-btn">×</button>
-        <img src="https://cdn.jsdelivr.net/gh/xyx-cmd-maker/sardine-by-the-cloud.github.io@main/plum.jpg" alt="文明奈李文案方案" class="overlay-img">
-        <p class="case-img-note">* 本图片为方案示例配图，非产品实拍</p>
         <h2>【文明奈李】朋友圈推广文案方案</h2>
-
         <h4>方案背景</h4>
         <p>针对汝城文明奈李的季节性特点和本地私域传播需求，设计的朋友圈文案+配图方案，适配预售、上市、尾期全周期推广。</p>
-
         <h4>方案核心</h4>
         <p>突出文明奈李「核心产区种植、个大核小肉厚、脆甜多汁口感」的核心卖点，用“真实感+互动感”的文案风格，激发朋友圈好友的购买欲。</p>
-
         <h4>方案价值</h4>
         <p>文案方案包含不同场景的文案模板和配图建议，本地果农拿到即可直接发布，提升私域转化效率，降低文案创作成本。</p>
       </div>
     </div>
   </div>
 
-  <!-- 【关键修复】补充弹窗交互 JS（如果 script.js 为空） -->
   <script>
-    // 这是一个兜底的 JS，确保如果你的 script.js 没加载成功，弹窗也能正常工作
-    document.addEventListener('DOMContentLoaded', function() {
-      // 检查是否已有 openOverlay 函数（防止重复定义）
-      if (typeof window.openOverlay === 'undefined') {
-        window.openOverlay = function(id) {
-          const overlay = document.getElementById(id);
-          if (overlay) {
-            overlay.classList.add('active');
-            // 【关键】打开弹窗时，禁止 body 滚动，但保留 html 滚动
-            document.body.style.overflow = 'hidden';
-          }
-        };
+    // 全局状态
+    let currentOverlay = null;
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavbar();
+      initForms();
+      initOverlayClickClose();
+    });
+
+    // 导航栏
+    function initNavbar() {
+      const hamburger = document.getElementById('hamburger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+
+      if (hamburger && mobileMenu) {
+        hamburger.addEventListener('click', () => {
+          hamburger.classList.toggle('active');
+          mobileMenu.classList.toggle('active');
+          // 移动端菜单打开时不锁定body，防止影响弹窗
+        });
       }
 
-      if (typeof window.closeOverlay === 'undefined') {
-        window.closeOverlay = function(id) {
-          const overlay = document.getElementById(id);
-          if (overlay) {
-            overlay.classList.remove('active');
-            // 【关键】关闭弹窗时，恢复 body 滚动
-            document.body.style.overflow = '';
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetId = link.getAttribute('href').substring(1);
+          scrollToSection(targetId);
+          if (hamburger && mobileMenu) {
+            hamburger.classList.remove('active');
+            mobileMenu.classList.remove('active');
           }
-        };
-      }
+        });
+      });
       
-      if (typeof window.scrollToSection === 'undefined') {
-        window.scrollToSection = function(id) {
-          const element = document.getElementById(id);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-          }
-        };
+      window.addEventListener('scroll', updateActiveNav);
+    }
+
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function updateActiveNav() {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-link');
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 130;
+        if (window.scrollY >= sectionTop) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+      });
+    }
+
+    // 表单
+    function initForms() {
+      const contactForm = document.getElementById('contactForm');
+      const formSuccess = document.getElementById('formSuccess');
+      if (contactForm && formSuccess) {
+        contactForm.addEventListener('submit', (e) => {
+          e.preventDefault();
+          handleFormSubmit(formSuccess, contactForm);
+        });
       }
+    }
+
+    function handleFormSubmit(successElement, formElement) {
+      successElement.style.display = 'block';
+      formElement.reset();
+      setTimeout(() => {
+        successElement.style.display = 'none';
+        closeAllOverlays();
+      }, 2800);
+    }
+
+    // 弹窗逻辑 - 核心修复
+    function initOverlayClickClose() {
+      document.addEventListener('click', (e) => {
+        // 只有点击遮罩层本身（.overlay）才关闭，不包含内容
+        if (e.target.classList.contains('overlay')) {
+          closeOverlay(e.target.id);
+        }
+      });
+    }
+
+    function openOverlay(overlayId) {
+      closeAllOverlays(false);
+      const overlay = document.getElementById(overlayId);
+      if (!overlay) return;
       
-      if (typeof window.switchOverlay === 'undefined') {
-        window.switchOverlay = function(id) {
-          // 简单的切换逻辑：先关所有 overlay，再开新的
-          document.querySelectorAll('.overlay, .overlay-page').forEach(el => {
-            el.classList.remove('active');
-          });
-          setTimeout(() => {
-            window.openOverlay(id);
-          }, 100);
-        };
+      overlay.classList.add('active');
+      currentOverlay = overlayId;
+      
+      // 【关键修复】锁定背景滚动，但允许弹窗滚动
+      // 保存当前滚动位置
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.overflowY = 'scroll'; // 保持滚动条位置
+      
+      // 强制滚动到顶部（针对弹窗容器）
+      overlay.scrollTop = 0;
+    }
+
+    function switchOverlay(overlayId) {
+      openOverlay(overlayId);
+    }
+
+    function closeOverlay(overlayId) {
+      const overlay = document.getElementById(overlayId);
+      if (!overlay) return;
+      
+      overlay.classList.remove('active');
+      
+      const hasActiveOverlay = document.querySelector('.overlay.active') || document.querySelector('.overlay-page.active');
+      if (!hasActiveOverlay) {
+        currentOverlay = null;
+        // 恢复背景滚动
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
       }
-    });
+    }
+
+    function closeAllOverlays(resetBody = true) {
+      document.querySelectorAll('.overlay-page.active').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.overlay.active').forEach(el => el.classList.remove('active'));
+      currentOverlay = null;
+      
+      if (resetBody) {
+        // 完全恢复
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflowY = '';
+        if(scrollY) window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
   </script>
 </body>
 </html>
