@@ -6,9 +6,10 @@
   <meta name="description" content="汝城本地农产AI内容服务，提供电商详情页、短视频脚本、朋友圈文案等低成本解决方案">
   <title>玉汝于城农产AI内容服务工作室</title>
   
-  <link rel="stylesheet" href="style.css">
+  <!-- 【关键修复】用./相对路径，兼容GitHub Pages所有场景，大小写统一 -->
+  <link rel="stylesheet" href="./style.css">
   
-  <!-- GSAP前置加载，确保动画丝滑 -->
+  <!-- GSAP动画库，CDN地址稳定有效 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 </head>
@@ -25,12 +26,14 @@
         <li><a href="#about" class="nav-link">关于我们</a></li>
         <li><a href="#contact" class="nav-link">联系我们</a></li>
       </ul>
+      <!-- 移动端汉堡菜单 -->
       <div class="hamburger" id="hamburger">
         <span></span>
         <span></span>
         <span></span>
       </div>
     </div>
+    <!-- 移动端展开菜单 -->
     <div class="mobile-menu" id="mobileMenu">
       <a href="#hero" class="mobile-nav-link">首页</a>
       <a href="#services" class="mobile-nav-link">服务项目</a>
@@ -41,8 +44,9 @@
     </div>
   </nav>
 
+  <!-- 主页面内容 -->
   <div id="mainContent">
-    <!-- Hero区 -->
+    <!-- Hero区（首屏） -->
     <section id="hero" class="hero">
       <div class="hero-content">
         <h1 class="hero-title">玉汝于城农产AI内容服务工作室</h1>
@@ -92,7 +96,7 @@
       </div>
     </section>
 
-    <!-- 价格体系区【关键】：data-price存储目标值，HTML初始显示0，等待JS激活 -->
+    <!-- 价格体系区 -->
     <section id="prices" class="section section-alt">
       <h2 class="section-title">透明价格</h2>
       <p class="section-desc">本地农户专属优惠，长期合作更划算</p>
@@ -364,6 +368,7 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- 【关键修复】JS路径统一用./，放在body末尾确保DOM加载完成 -->
+  <script src="./script.js"></script>
 </body>
 </html>
